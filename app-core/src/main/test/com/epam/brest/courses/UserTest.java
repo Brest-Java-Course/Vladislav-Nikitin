@@ -1,4 +1,4 @@
-package com.epam.brest.courses.domain;
+package com.epam.brest.courses;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
