@@ -8,7 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.List;
 import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath: /testApplicationContextSpring.xml" })
+@ContextConfiguration(locations = {"classpath:/spring-dao-test.xml"})
 public class UserDaoImplTest {
     @Autowired
     private UserDao userDao;
@@ -29,5 +29,17 @@ public class UserDaoImplTest {
         userDao.addUser(user);
         users = userDao.getUsers();
         assertEquals(sizeBefore, users.size() - 1);
+    }
+
+    @Test
+    public void getUserByLogin () {
+        User user = userDao.getUserByLogin ("userLogin1");
+        assertTrue(user.getLogin().equals("userLogin1"));
+    }
+
+    @Test
+    public void getUserById () {
+        User user = userDao.getUserById(1L);
+        assertTrue(user.getUserId().equals(1L));
     }
 }
