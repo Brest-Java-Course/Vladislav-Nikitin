@@ -1,5 +1,5 @@
 package com.epam.brest.courses.domain;
-public class User {
+public class User implements UserImpl {
 private Long userId;
 private String login;
 private String name;
@@ -10,6 +10,7 @@ this.userId = userId;
 this.login = login;
 this.name = name;
 }
+
 public Long getUserId() {
 return userId;
 }
