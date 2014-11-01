@@ -1,3 +1,4 @@
+
 package com.epam.brest.courses.service;
 import com.epam.brest.courses.domain.User;
 

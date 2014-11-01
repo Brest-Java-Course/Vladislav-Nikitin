@@ -12,3 +12,13 @@ public interface UserDao {
     public User getUserById(long userId);
     public void updateUser(User user);
 }
+
+ /*@Override
+    public void addUser(User user) {
+        LOGGER.debug("addUser({}) ", user);
+        Map<String, Object> parameters = new HashMap(3);
+        parameters.put(NAME, user.getName());
+        parameters.put(LOGIN, user.getLogin());
+        parameters.put(USER_ID, user.getUserId());
+        namedJdbcTemplate.update(ADD_NEW_USER_SQL, parameters);
+    }*/
