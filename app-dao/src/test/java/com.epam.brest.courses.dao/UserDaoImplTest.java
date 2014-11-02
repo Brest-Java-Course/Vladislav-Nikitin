@@ -21,6 +21,7 @@ public class UserDaoImplTest {
     }
 
     @Test
+    @Rollback(true)
     public void addUser() {
         List<User> users = userDao.getUsers();
         int sizeBefore = users.size();
