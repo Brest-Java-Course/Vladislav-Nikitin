@@ -7,10 +7,11 @@ import java.util.List;
 public interface UserDao {
     public void addUser(User user);
     public List<User> getUsers();
-    public void removeUser(Long userId);
+    public void removeUserById(Long userId);
     public User getUserByLogin(String login);
     public User getUserById(long userId);
     public void updateUser(User user);
+    public boolean equals (User user1, User user2);
 }
 
  /*@Override

@@ -19,11 +19,11 @@ import java.util.Map;
 public class UserDaoImpl implements UserDao {
     @Value("#{T(org.apache.commons.io.FileUtils).readFileToString((new org.springframework.core.io.ClassPathResource('${insert_into_user_path}')).file)}")
     public String addNewUserSql;
-    public static final String DELETE_USER_SQL = "delete from USER where user_id = ?";
+    public static final String DELETE_USER_SQL = "delete from USER where userId = ?";
     public static final String UPDATE_USER_SQL = "update user set name = :name, login = :login where userid = :userid";
     public static final String SELECT_USER_BY_LOGIN_SQL = "select userid, login, name from USER where LCASE(login) = ?";
     public static final String SELECT_ALL_USERS_SQL = "select userid, login, name from USER";
-    public static final String SELECT_USER_BY_ID_SQL = "select userid, login, name from USER where userid = ?";
+    public static final String SELECT_USER_BY_ID_SQL = "select userId, login, name from USER where userid = ?";
     public static final String USER_ID = "userid";
     public static final String LOGIN = "login";
     public static final String NAME = "name";
@@ -53,7 +53,7 @@ public class UserDaoImpl implements UserDao {
         return jdbcTemplate.query(SELECT_ALL_USERS_SQL, new UserMapper());
     }
     @Override
-    public void removeUser(Long userId) {
+    public void removeUserById(Long userId) {
         LOGGER.debug("removeUser(userId={}) ", userId);
         jdbcTemplate.update(DELETE_USER_SQL, userId);
     }
@@ -78,6 +78,7 @@ public class UserDaoImpl implements UserDao {
         parameters.put(USER_ID, user.getUserId());
         namedJdbcTemplate.update(UPDATE_USER_SQL, parameters);
     }
+
     public class UserMapper implements RowMapper<User> {
         public User mapRow(ResultSet rs, int i) throws SQLException {
             User user = new User();
@@ -87,4 +88,23 @@ public class UserDaoImpl implements UserDao {
             return user;
         }
     }
+
+
+    public boolean equals (User user1, User user2) {
+
+        if (user1 == null && user2 == null)
+            return false;
+
+        if (user1.getClass() != user2.getClass()) {
+            return false;
+        }
+
+        if (user1.getUserId()==user2.getUserId() && user1.getLogin()==user2.getLogin()
+                && user1.getName()==user2.getName()) {
+            return true;
+        }
+        return false;
+    }
+
+
 }
