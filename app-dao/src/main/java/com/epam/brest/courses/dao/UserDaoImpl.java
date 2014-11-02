@@ -13,18 +13,20 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-/**
- * Created by mentee-42 on 20.10.14.
- */
+
 public class UserDaoImpl implements UserDao {
+
     @Value("#{T(org.apache.commons.io.FileUtils).readFileToString((new org.springframework.core.io.ClassPathResource('${insert_into_user_path}')).file)}")
     public String addNewUserSql;
-    public static final String DELETE_USER_SQL = "delete from USER where userId = ?";
+
+    @Value("#{T(org.apache.commons.io.FileUtils).readFileToString((new org.springframework.core.io.ClassPathResource('${remove_user}')).file)}")
+    public String removeUserSql;
+
     public static final String UPDATE_USER_SQL = "update user set name = :name, login = :login where userid = :userid";
     public static final String SELECT_USER_BY_LOGIN_SQL = "select userid, login, name from USER where LCASE(login) = ?";
     public static final String SELECT_ALL_USERS_SQL = "select userid, login, name from USER";
     public static final String SELECT_USER_BY_ID_SQL = "select userId, login, name from USER where userid = ?";
-    public static final String USER_ID = "userid";
+    public static final String USER_ID = "userId";
     public static final String LOGIN = "login";
     public static final String NAME = "name";
     private static final Logger LOGGER = LogManager.getLogger();
@@ -55,7 +57,9 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void removeUserById(Long userId) {
         LOGGER.debug("removeUser(userId={}) ", userId);
-        jdbcTemplate.update(DELETE_USER_SQL, userId);
+        Map<String, Object> args = new HashMap(1);
+        args.put(USER_ID, userId);
+        namedJdbcTemplate.update(removeUserSql, args);
     }
     @Override
     public User getUserByLogin(String login) {
