@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.List;
+import org.springframework.test.annotation.Rollback;
 import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/spring-dao-test.xml"})
@@ -18,6 +19,7 @@ public class UserDaoImplTest {
         assertNotNull(users);
         assertFalse(users.isEmpty());
     }
+
     @Test
     public void addUser() {
         List<User> users = userDao.getUsers();
@@ -29,5 +31,13 @@ public class UserDaoImplTest {
         userDao.addUser(user);
         users = userDao.getUsers();
         assertEquals(sizeBefore, users.size() - 1);
+    }
+
+    @Test
+    @Rollback(true)
+    public void removeUserById () {
+        assertNotNull(userDao.getUserById(1L));
+        userDao.removeUserById(1L);
+        //assertNull (userDao.getUserById(1L));
     }
 }
